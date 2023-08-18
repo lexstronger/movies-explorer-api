@@ -14,7 +14,7 @@ router.post('/signup', signupValidator, createUser);
 router.use(auth);
 
 router.use('/users', usersRouter);
-router.use('/cards', moviesRouter);
+router.use('/movies', moviesRouter);
 router.use((req, res, next) => next(new NotFoundError('Страницы по данному адресу не существует')));
 
 module.exports = router;

@@ -11,7 +11,7 @@ const {
 } = require('../utils/constants');
 
 const getUserById = (req, res, next) => {
-  User.findById(req.params.userId)
+  User.findById(req.user._id)
     .then((user) => {
       if (user) {
         res.status(SUCCESS).send({ data: user });
@@ -66,8 +66,8 @@ const login = (req, res, next) => {
 
 const updateProfile = (req, res, next) => {
   const userId = req.user._id;
-  const { name, about } = req.body;
-  User.findByIdAndUpdate(userId, { name, about }, { new: true, runValidators: true })
+  const { name, email } = req.body;
+  User.findByIdAndUpdate(userId, { name, email }, { new: true, runValidators: true })
     .then((user) => {
       if (!user) {
         throw new NotFoundError('Пользователь не найден');
@@ -77,9 +77,12 @@ const updateProfile = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        return next(new BadRequestError('Введены некорректные данные при изменении аватара'));
+        next(new BadRequestError('Введены некорректные данные'));
+      } else if (err.code === 11000) {
+        next(new ConflictError('Пользователь с таким email уже существует'));
+      } else {
+        next(err);
       }
-      return next(err);
     });
 };
 

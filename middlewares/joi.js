@@ -13,7 +13,7 @@ const signupValidator = celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
     password: Joi.string().required(),
-    name: Joi.string().min(2).max(30),
+    name: Joi.string().required().min(2).max(30),
   }),
 });
 
@@ -40,7 +40,6 @@ const movieValidator = celebrate({
     image: Joi.string().required().regex(regexLink),
     trailerLink: Joi.string().required().regex(regexLink),
     thumbnail: Joi.string().required().regex(regexLink),
-    owner: Joi.required(),
     movieId: Joi.number().required(),
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),

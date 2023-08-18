@@ -8,6 +8,7 @@ const cors = require('cors');
 const router = require('./routes/index');
 const centralHandlerError = require('./middlewares/centralHandlerError');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+const { dataMovies } = require('./utils/config');
 
 const { PORT = 3000 } = process.env;
 
@@ -33,6 +34,6 @@ app.use(errors());
 
 app.use(centralHandlerError);
 
-mongoose.connect('mongodb://127.0.0.1:27017/bitfilmsdb');
+mongoose.connect(dataMovies);
 
 app.listen(PORT);
