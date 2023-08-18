@@ -17,12 +17,6 @@ const signupValidator = celebrate({
   }),
 });
 
-const userByIdValidator = celebrate({
-  params: Joi.object().keys({
-    userId: Joi.string().required().hex().length(24),
-  }),
-});
-
 const profileInfoValidator = celebrate({
   body: Joi.object().keys({
     name: Joi.string().required().min(2).max(30),
@@ -55,7 +49,6 @@ const movieIdValidator = celebrate({
 module.exports = {
   signinValidator,
   signupValidator,
-  userByIdValidator,
   profileInfoValidator,
   movieValidator,
   movieIdValidator,
